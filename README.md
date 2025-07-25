@@ -1,2 +1,8 @@
-# multi-block-note
-編輯器
+# Multi-Column Blocks
+
+```bash
+pnpm i react-icons
+pnpm i @mantine/core
+```
+
+pnpm run dev

@@ -1,0 +1,83 @@
+[data-content-type=heading] {
+    --level: 2.5em;
+}
+[data-content-type=heading][data-level="2"] {
+    --level: 2em;
+}
+[data-content-type=heading][data-level="3"] {
+    --level: 1.75em;
+}
+[data-content-type=heading][data-level="4"] {
+    --level: 1.5em;
+}
+[data-content-type=heading][data-level="5"] {
+    --level: 1.25em;
+}
+.bn-block-group {
+    .bn-block {
+        &:not(:has(.bn-toggle-wrapper)) {
+            .bn-block-group {
+                .bn-block-outer {
+                    &:not([data-prev-depth-changed]) {
+                        &::before {
+                            border-left: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.bn-block-content {
+    &[data-content-type=codeBlock] {
+        background-color: #f7f6f3;
+        color: #32302c;
+    }
+    .alert {
+        border-radius: .375rem;
+        border-left-width: 4px;
+        border-left-style: solid;
+        &[data-alert-type="info"] {
+            color: #08a2e7;
+            background-color: #e1f3fe;
+            border-left-color: #08a2e7;
+        }
+        &[data-alert-type="success"] {
+            color: #12b77f;
+            background-color: #d1fae5;
+            border-left-color: #12b77f;
+        }
+        &[data-alert-type="warning"] {
+            color: #f97415;
+            background-color: #fef3c9;
+            border-left-color: #f97415;
+        }
+        &[data-alert-type="error"] {
+            color: #ee4443;
+            background-color: #fee1e2;
+            border-left-color: #ee4443;
+        }
+        &[data-alert-type="default"] {
+            color: #000000;
+            background-color: #f5f7f9;
+            border-left-color: transparent;
+        }
+    }
+    .alert-icon {
+        &[data-alert-icon-type="info"] {
+            color: #08a2e7;
+        }
+        &[data-alert-icon-type="success"] {
+            color: #12b77f;
+        }
+        &[data-alert-icon-type="warning"] {
+            color: #f97415;
+        }
+        &[data-alert-icon-type="error"] {
+            color: #ee4443;
+        }
+        &[data-alert-icon-type="default"] {
+            color: #000000;
+        }
+    }
+}
