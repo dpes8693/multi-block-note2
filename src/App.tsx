@@ -38,11 +38,11 @@ import { data } from "./data/index";
 
 // 創建主題配置
 const lightTheme = createTheme({
-  colorScheme: 'light',
+  // colorScheme: 'light', // 移除已棄用的屬性
 });
 
 const darkTheme = createTheme({
-  colorScheme: 'dark',
+  // colorScheme: 'dark', // 移除已棄用的屬性
 });
 
 // Header 組件
@@ -110,12 +110,12 @@ export default function App() {
       multi_column: multiColumnLocales.en,
     },
     // Load the predefined data from data/index.ts
-    initialContent: data,
+    initialContent: data as any,
   });
 
   // 监听编辑器内容变化
   useEditorChange((editor) => {
-    setDocument(editor.document);
+    setDocument(editor.document as any);
   }, editor);
 
   // Gets the default slash menu items merged with the multi-column ones.

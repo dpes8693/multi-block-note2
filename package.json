@@ -6,8 +6,11 @@
   "scripts": {
     "start": "vite",
     "dev": "vite",
+    "build": "tsc && vite build",
     "build:prod": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@blocknote/ariakit": "latest",
@@ -22,9 +25,12 @@
     "react-icons": "^5.5.0"
   },
   "devDependencies": {
+    "@types/node": "^24.1.0",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
     "@vitejs/plugin-react": "^4.3.1",
+    "gh-pages": "^6.3.0",
+    "typescript": "^5.8.3",
     "vite": "^5.3.4"
   }
 }
