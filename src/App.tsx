@@ -25,6 +25,10 @@ import {
   FormattingToolbarController,
   blockTypeSelectItems,
   FormattingToolbar,
+  SideMenuController,
+  SideMenu,
+  DragHandleButton,
+  AddBlockButton,
 } from "@blocknote/react";
 import {
   getMultiColumnSlashMenuItems,
@@ -44,6 +48,7 @@ import {
   Title,
 } from "@mantine/core";
 import { Alert } from "./AlertOk";
+import { AlertTypeButton } from "./AlertTypeButton";
 import "./Alert.css";
 import { data } from "./data/index";
 import { HiOutlineGlobeAlt } from "react-icons/hi";
@@ -57,7 +62,7 @@ const darkTheme = createTheme({
   // colorScheme: 'dark', // 移除已棄用的屬性
 });
 
-const Version = "0.1.0";
+const Version = "0.1.1";
 const defaultLanguage = "zhTW";
 
 const newMultiColumnLocales = {
@@ -166,18 +171,24 @@ export default function App() {
     setDocument(editor.document as any);
   }, editor);
 
-  // 新增helloWorld區塊
-  const insertHelloWorldItem = (editor: any) => ({
-    title: "客製化Hello World",
-    subtext: "客製化",
+  // 新增alert區塊
+  const insertAlertItem = (editor: any) => ({
+    title: "提示",
+    subtext: "Alert區塊",
     onItemClick: () =>
       insertOrUpdateBlock(editor, {
-        type: "paragraph",
-        content: [
-          { type: "text", text: "Hello World", styles: { bold: true } },
-        ],
+        type: "alert",
+        content: [{ type: "text", text: "alert" }],
       } as any),
-    aliases: ["helloworld", "hw"],
+    aliases: [
+      "alert",
+      "notification",
+      "emphasize",
+      "warning",
+      "error",
+      "info",
+      "success",
+    ],
     group: "Other",
     icon: <HiOutlineGlobeAlt size={18} />,
   });
@@ -189,7 +200,7 @@ export default function App() {
         getDefaultReactSlashMenuItems(editor),
         getMultiColumnSlashMenuItems(editor)
       ),
-      insertHelloWorldItem(editor) as any,
+      insertAlertItem(editor) as any,
     ];
     // console.log(items);
 
@@ -215,15 +226,26 @@ export default function App() {
             console.log(multiColumnLocales);
           }}
         >
-          test
+          console.log
         </div>
         <div style={{ padding: "20px" }}>
           <BlockNoteView
             editor={editor}
             slashMenu={false}
             formattingToolbar={false}
+            sideMenu={false}
             theme={isDarkMode ? "dark" : "light"}
           >
+            {/* Custom Side Menu with Alert Type Button */}
+            <SideMenuController
+              sideMenu={(props) => (
+                <SideMenu {...props}>
+                  <AlertTypeButton editor={editor} block={props.block} />
+                  <AddBlockButton {...props} />
+                  <DragHandleButton {...props} />
+                </SideMenu>
+              )}
+            />
             {/* Replaces the default slash menu with one that has both the default
           items and the multi-column ones. */}
             <SuggestionMenuController

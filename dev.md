@@ -1,8 +1,11 @@
 # 開發文件
 
+2025/07/28
+fixed: alert 移動時文字會消失，可以複製但是沒有文字 並且無法輸入
+
 ## 當前問題
 
-缺點: 0. /scrollbar 點一下就消失無法拖曳 scrollbar
+缺點:
 
 1. 無法在 heading 收合時拖曳 block 進去
 2. heading 展開時還要點一下新增 block 才能拖曳 block 進去
@@ -15,14 +18,14 @@ For syntax highlighting of code blocks, you must provide a `codeBlock.createHigh
 ```
 
 4. alert 是客製化的
-   可以複製但是沒有文字 並且無法輸入
    點 6 個點出現顏色=> 應該禁止
-   移動時文字會消失 => 應該要有
+
+5. scrollbar 點一下就消失無法拖曳 scrollbar
 
 ## How
 
 - 怎麼隱藏/擴充選單?
-<https://www.blocknotejs.org/docs/react/components/suggestion-menus>
+  <https://www.blocknotejs.org/docs/react/components/suggestion-menus>
 
 總計：17 種不同的 type
 
@@ -62,15 +65,15 @@ page 嵌套
 ---
 
 Formatting Toolbar 是框選文字浮現出的選單 ex:可以改文字粗體和顏色
-Inline Content Types 是利用特殊文字ex: @呼叫自訂選單做自訂功能
+Inline Content Types 是利用特殊文字 ex: @呼叫自訂選單做自訂功能
 Block Side Menu 是產生區塊後左邊的操作選單
 
 Aert:
 <https://stackblitz.com/github/TypeCellOS/BlockNote/tree/main/examples/06-custom-schema/05-alert-block-full-ux?file=README.md>
 
-
 ```md
-原始問題：Alert 組件在刪除文字後無法編輯，拖拽後需要二次拖拽才能正確更新
+Alert2
+原始問題： Alert 組件在刪除文字後無法編輯，拖拽後需要二次拖拽才能正確更新
 根本原因：React API 的 createReactBlockSpec 在處理拖拽和重新渲染時存在穩定性問題
 解決方案：改用 Vanilla JS API 的 createBlockSpec，直接操作 DOM
 最終實現的特點：
