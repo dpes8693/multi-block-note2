@@ -5,7 +5,7 @@ import {
   defaultBlockSpecs,
   defaultInlineContentSpecs,
   defaultStyleSpecs,
-  BlockNoteEditor,
+  // BlockNoteEditor,
   insertOrUpdateBlock,
 } from "@blocknote/core";
 import * as locales from "@blocknote/core/locales";
@@ -43,7 +43,7 @@ import {
   Paper,
   Title,
 } from "@mantine/core";
-import { Alert } from "./Alert";
+import { Alert } from "./AlertOk";
 import "./Alert.css";
 import { data } from "./data/index";
 import { HiOutlineGlobeAlt } from "react-icons/hi";
@@ -167,7 +167,7 @@ export default function App() {
   }, editor);
 
   // 新增helloWorld區塊
-  const insertHelloWorldItem = (editor: BlockNoteEditor) => ({
+  const insertHelloWorldItem = (editor: any) => ({
     title: "客製化Hello World",
     subtext: "客製化",
     onItemClick: () =>
@@ -176,7 +176,7 @@ export default function App() {
         content: [
           { type: "text", text: "Hello World", styles: { bold: true } },
         ],
-      }),
+      } as any),
     aliases: ["helloworld", "hw"],
     group: "Other",
     icon: <HiOutlineGlobeAlt size={18} />,
@@ -189,7 +189,7 @@ export default function App() {
         getDefaultReactSlashMenuItems(editor),
         getMultiColumnSlashMenuItems(editor)
       ),
-      insertHelloWorldItem(editor),
+      insertHelloWorldItem(editor) as any,
     ];
     // console.log(items);
 

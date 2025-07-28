@@ -64,3 +64,23 @@ page 嵌套
 Formatting Toolbar 是框選文字浮現出的選單 ex:可以改文字粗體和顏色
 Inline Content Types 是利用特殊文字ex: @呼叫自訂選單做自訂功能
 Block Side Menu 是產生區塊後左邊的操作選單
+
+Aert:
+<https://stackblitz.com/github/TypeCellOS/BlockNote/tree/main/examples/06-custom-schema/05-alert-block-full-ux?file=README.md>
+
+
+```md
+原始問題：Alert 組件在刪除文字後無法編輯，拖拽後需要二次拖拽才能正確更新
+根本原因：React API 的 createReactBlockSpec 在處理拖拽和重新渲染時存在穩定性問題
+解決方案：改用 Vanilla JS API 的 createBlockSpec，直接操作 DOM
+最終實現的特點：
+✅ 拖拽穩定：不再需要二次拖拽就能正確更新
+✅ 樣式一致：完全符合原始設計的 DOM 結構和 CSS 類名
+✅ 功能完整：點擊圖標可以循環切換 alert 類型
+✅ 編輯正常：文字內容區域始終可編輯
+✅ 性能優化：使用 requestAnimationFrame 確保流暢更新
+
+這個解決方案展示了有時候回到更基礎的 API（Vanilla JS）反而能解決複雜框架帶來的問題。BlockNote 的 Vanilla JS API 更穩定，特別是在處理拖拽等複雜交互時。
+
+如果以後遇到類似的 BlockNote 組件問題，現在您知道可以考慮使用 createBlockSpec 而不是 createReactBlockSpec 來獲得更好的穩定性！
+```
