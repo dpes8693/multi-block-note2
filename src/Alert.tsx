@@ -1,14 +1,26 @@
 import { defaultProps } from "@blocknote/core";
 import { createReactBlockSpec } from "@blocknote/react";
 import { Menu } from "@mantine/core";
+// 引入所需的圖標
 import { MdCancel, MdCheckCircle, MdError, MdInfo } from "react-icons/md";
+import { GoAlertFill } from "react-icons/go";
 
 // The types of alerts that users can choose from.
 export const alertTypes = [
   {
-    title: "Warning",
+    title: "",
     value: "warning",
-    icon: MdError,
+    icon: GoAlertFill,
+    color: "#e69819",
+    backgroundColor: {
+      light: "#fff6e6",
+      dark: "#805d20",
+    },
+  },
+  {
+    title: "Default",
+    value: "default",
+    icon: MdInfo,
     color: "#e69819",
     backgroundColor: {
       light: "#fff6e6",
@@ -28,7 +40,7 @@ export const alertTypes = [
   {
     title: "Info",
     value: "info",
-    icon: MdInfo,
+    icon: MdError,
     color: "#507aff",
     backgroundColor: {
       light: "#e6ebff",
@@ -56,15 +68,17 @@ export const Alert = createReactBlockSpec(
       textColor: defaultProps.textColor,
       type: {
         default: "warning",
-        values: ["warning", "error", "info", "success"],
+        values: ["warning", "error", "info", "success", "default"],
       },
     },
     content: "inline",
+    isSelectable: true, //是否可以框選
+    hardBreakShortcut: "shift+enter", //強制換行快捷鍵
   },
   {
     render: (props) => {
       const alertType = alertTypes.find(
-        (a) => a.value === props.block.props.type,
+        (a) => a.value === props.block.props.type
       )!;
       const Icon = alertType.icon;
       return (
@@ -114,5 +128,5 @@ export const Alert = createReactBlockSpec(
         </div>
       );
     },
-  },
+  }
 );

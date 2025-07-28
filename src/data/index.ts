@@ -768,14 +768,20 @@ export const data = [
     children: [],
   },
   {
-    id: "c965419f-e0b8-4d74-9243-1bd01603800b",
-    type: "paragraph",
+    id: "ac12df85-0f49-4e70-a61b-84d5cd68258b",
+    type: "alert",
     props: {
       textColor: "default",
-      backgroundColor: "default",
       textAlignment: "left",
+      type: "default",
     },
-    content: [],
+    content: [
+      {
+        type: "text",
+        text: "default",
+        styles: {},
+      },
+    ],
     children: [],
   },
 ];
