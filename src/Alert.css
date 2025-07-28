@@ -81,3 +81,17 @@
 .c-no-padding {
   padding: 2px !important;
 }
+
+.bn-suggestion-menu {
+  scrollbar-color: white white;
+}
+
+@media (prefers-color-scheme: dark) {
+  .bn-suggestion-menu {
+    scrollbar-color: var(--bn-colors-menu-background)
+      var(--bn-colors-menu-background);
+  }
+}
+body {
+  margin: 0%;
+}
