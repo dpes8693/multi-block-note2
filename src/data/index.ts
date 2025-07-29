@@ -1,40 +1,5 @@
 export const data = [
   {
-    id: "498e66fc-af42-4f59-9c59-9a26cd31cafa",
-    type: "paragraph",
-    props: {
-      textColor: "default",
-      backgroundColor: "default",
-      textAlignment: "left",
-    },
-    content: [
-      {
-        type: "text",
-        text: "文字",
-        styles: {},
-      },
-    ],
-    children: [
-      {
-        id: "3484a8aa-b806-4deb-a9fe-bc82d9422128",
-        type: "paragraph",
-        props: {
-          textColor: "default",
-          backgroundColor: "default",
-          textAlignment: "left",
-        },
-        content: [
-          {
-            type: "text",
-            text: "內縮",
-            styles: {},
-          },
-        ],
-        children: [],
-      },
-    ],
-  },
-  {
     id: "649883dc-a3b5-49a7-af6f-dbeeaeb71e9a",
     type: "heading",
     props: {
@@ -138,6 +103,77 @@ export const data = [
       },
     ],
     children: [],
+  },
+  {
+    id: "1c5e686e-0de6-4a59-bec0-c64a9729fc7c",
+    type: "columnList",
+    props: {},
+    children: [
+      {
+        id: "a800239e-d95b-4c45-a948-8a7aca2cde61",
+        type: "column",
+        props: {
+          width: 1,
+        },
+        children: [
+          {
+            id: "498e66fc-af42-4f59-9c59-9a26cd31cafa",
+            type: "paragraph",
+            props: {
+              textColor: "default",
+              backgroundColor: "default",
+              textAlignment: "left",
+            },
+            content: [
+              {
+                type: "text",
+                text: "文字",
+                styles: {},
+              },
+            ],
+            children: [
+              {
+                id: "3484a8aa-b806-4deb-a9fe-bc82d9422128",
+                type: "paragraph",
+                props: {
+                  textColor: "default",
+                  backgroundColor: "default",
+                  textAlignment: "left",
+                },
+                content: [
+                  {
+                    type: "text",
+                    text: "內縮",
+                    styles: {},
+                  },
+                ],
+                children: [],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: "be7de043-6fe6-481d-b9b4-435a79f4b028",
+        type: "column",
+        props: {
+          width: 1,
+        },
+        children: [
+          {
+            id: "31f108c6-5985-4ca4-899c-caa04702d235",
+            type: "paragraph",
+            props: {
+              textColor: "default",
+              backgroundColor: "default",
+              textAlignment: "left",
+            },
+            content: [],
+            children: [],
+          },
+        ],
+      },
+    ],
   },
   {
     id: "7350a08d-b2c4-428a-a263-342acb7563aa",
@@ -305,21 +341,21 @@ export const data = [
     content: [],
     children: [],
   },
-  {
-    id: "0142108d-5a5d-4f5c-93d0-5867b87be22d",
-    type: "codeBlock",
-    props: {
-      language: "text",
-    },
-    content: [
-      {
-        type: "text",
-        text: "Code",
-        styles: {},
-      },
-    ],
-    children: [],
-  },
+  // {
+  //   id: "0142108d-5a5d-4f5c-93d0-5867b87be22d",
+  //   type: "codeBlock",
+  //   props: {
+  //     language: "text",
+  //   },
+  //   content: [
+  //     {
+  //       type: "text",
+  //       text: "Code",
+  //       styles: {},
+  //     },
+  //   ],
+  //   children: [],
+  // },
   {
     id: "622c951a-90f8-4619-93fe-5537f0fbc04c",
     type: "table",

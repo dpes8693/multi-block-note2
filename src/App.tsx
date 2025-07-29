@@ -37,7 +37,6 @@ import {
   withMultiColumn,
 } from "@blocknote/xl-multi-column";
 import { useMemo, useState } from "react";
-import { RiAlertFill } from "react-icons/ri";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 import {
   MantineProvider,
@@ -62,7 +61,7 @@ const darkTheme = createTheme({
   // colorScheme: 'dark', // 移除已棄用的屬性
 });
 
-const Version = "0.1.1";
+const Version = "0.1.2";
 const defaultLanguage = "zhTW";
 
 const newMultiColumnLocales = {
@@ -126,8 +125,9 @@ function Header({
 }
 
 export default function App() {
-  // 添加状态来存储当前文档内容
-  const [document, setDocument] = useState(data);
+  const [markdown, setMarkdown] = useState<string>("");
+  const [html, setHTML] = useState<string>("");
+  const [document, setDocument] = useState([]);
   // 添加主題狀態
   const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -136,6 +136,7 @@ export default function App() {
     setIsDarkMode(!isDarkMode);
   };
 
+  const { codeBlock, ...remainingBlockSpecs } = defaultBlockSpecs;
   // Creates a new editor instance.
   const editor = useCreateBlockNote({
     // Adds column and column list blocks to the schema, plus Alert block.
@@ -143,7 +144,7 @@ export default function App() {
       BlockNoteSchema.create({
         blockSpecs: {
           // Adds all default blocks.
-          ...defaultBlockSpecs,
+          ...remainingBlockSpecs,
           // Adds the Alert block.
           alert: Alert,
         },
@@ -167,8 +168,15 @@ export default function App() {
   });
 
   // 监听编辑器内容变化
-  useEditorChange((editor) => {
+  useEditorChange(async (editor) => {
+    // JSON
     setDocument(editor.document as any);
+    // Converts the editor's contents from Block objects to HTML and store to state.
+    const html = await editor.blocksToHTMLLossy(editor.document);
+    setHTML(html);
+    // Converts the editor's contents from Block objects to Markdown and store to state.
+    const markdown = await editor.blocksToMarkdownLossy(editor.document);
+    setMarkdown(markdown);
   }, editor);
 
   // 新增alert區塊
@@ -221,9 +229,10 @@ export default function App() {
         <div
           onClick={() => {
             console.log(...blockTypeSelectItems(editor.dictionary));
-            console.log(defaultInlineContentSpecs);
-            console.log(defaultStyleSpecs);
-            console.log(multiColumnLocales);
+            console.log("defaultInlineContentSpecs", defaultInlineContentSpecs);
+            console.log("defaultStyleSpecs", defaultStyleSpecs);
+            console.log("multiColumnLocales", multiColumnLocales);
+            console.log("defaultBlockSpecs", defaultBlockSpecs);
           }}
         >
           console.log
@@ -281,7 +290,7 @@ export default function App() {
               mb="md"
               style={{ color: isDarkMode ? "#FFFFFF" : "#000000" }}
             >
-              文檔內容 (JSON)
+              JSON --變更編輯器後即時更新
             </Title>
             <pre
               style={{
@@ -292,6 +301,62 @@ export default function App() {
               }}
             >
               {JSON.stringify(document, null, 2)}
+            </pre>
+          </Paper>
+          <Paper
+            mt="xl"
+            p="md"
+            style={{
+              backgroundColor: isDarkMode ? "#25262B" : "#F8F9FA",
+              border: `1px solid ${isDarkMode ? "#373A40" : "#E9ECEF"}`,
+            }}
+          >
+            <Title
+              order={4}
+              mb="md"
+              style={{ color: isDarkMode ? "#FFFFFF" : "#000000" }}
+            >
+              HTML --變更編輯器後即時更新
+            </Title>
+            <pre
+              style={{
+                color: isDarkMode ? "#C1C2C5" : "#495057",
+                fontSize: "12px",
+                overflow: "auto",
+                maxHeight: "300px",
+              }}
+            >
+              <pre>
+                <code>{html}</code>
+              </pre>
+            </pre>
+          </Paper>
+          <Paper
+            mt="xl"
+            p="md"
+            style={{
+              backgroundColor: isDarkMode ? "#25262B" : "#F8F9FA",
+              border: `1px solid ${isDarkMode ? "#373A40" : "#E9ECEF"}`,
+            }}
+          >
+            <Title
+              order={4}
+              mb="md"
+              style={{ color: isDarkMode ? "#FFFFFF" : "#000000" }}
+            >
+              Markdown --變更編輯器後即時更新
+            </Title>
+            <pre
+              style={{
+                color: isDarkMode ? "#C1C2C5" : "#495057",
+                fontSize: "12px",
+                overflow: "auto",
+                maxHeight: "300px",
+              }}
+            >
+              <pre>
+                <code>{markdown}</code>
+              </pre>
             </pre>
           </Paper>
         </div>
