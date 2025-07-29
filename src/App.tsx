@@ -45,6 +45,7 @@ import {
   Group,
   Paper,
   Title,
+  Modal,
 } from "@mantine/core";
 import { Alert } from "./AlertOk";
 import { AlertTypeButton } from "./AlertTypeButton";
@@ -88,9 +89,11 @@ const newMultiColumnLocales = {
 function Header({
   isDark,
   toggleTheme,
+  onPreviewClick,
 }: {
   isDark: boolean;
   toggleTheme: () => void;
+  onPreviewClick: () => void;
 }) {
   return (
     <Paper
@@ -106,19 +109,31 @@ function Header({
         <Title order={3} style={{ color: isDark ? "#FFFFFF" : "#000000" }}>
           {`v ${Version}`}
         </Title>
-        <Button
-          variant="outline"
-          onClick={toggleTheme}
-          leftSection={
-            isDark ? <MdLightMode size={16} /> : <MdDarkMode size={16} />
-          }
-          style={{
-            borderColor: isDark ? "#373A40" : "#CED4DA",
-            color: isDark ? "#FFFFFF" : "#000000",
-          }}
-        >
-          {isDark ? "淺色模式" : "深色模式"}
-        </Button>
+        <Group>
+          <Button
+            variant="filled"
+            onClick={onPreviewClick}
+            style={{
+              backgroundColor: isDark ? "#228BE6" : "#228BE6",
+              color: "#FFFFFF",
+            }}
+          >
+            HTML 預覽
+          </Button>
+          <Button
+            variant="outline"
+            onClick={toggleTheme}
+            leftSection={
+              isDark ? <MdLightMode size={16} /> : <MdDarkMode size={16} />
+            }
+            style={{
+              borderColor: isDark ? "#373A40" : "#CED4DA",
+              color: isDark ? "#FFFFFF" : "#000000",
+            }}
+          >
+            {isDark ? "淺色模式" : "深色模式"}
+          </Button>
+        </Group>
       </Group>
     </Paper>
   );
@@ -130,10 +145,21 @@ export default function App() {
   const [document, setDocument] = useState([]);
   // 添加主題狀態
   const [isDarkMode, setIsDarkMode] = useState(false);
+  // 添加預覽模式狀態
+  const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
 
   // 主題切換函數
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
+  };
+
+  // 預覽模式相關函數
+  const openPreviewModal = () => {
+    setIsPreviewModalOpen(true);
+  };
+
+  const closePreviewModal = () => {
+    setIsPreviewModalOpen(false);
   };
 
   const { codeBlock, ...remainingBlockSpecs } = defaultBlockSpecs;
@@ -225,7 +251,7 @@ export default function App() {
           transition: "background-color 0.3s ease",
         }}
       >
-        <Header isDark={isDarkMode} toggleTheme={toggleTheme} />
+        <Header isDark={isDarkMode} toggleTheme={toggleTheme} onPreviewClick={openPreviewModal} />
         <div
           onClick={() => {
             console.log(...blockTypeSelectItems(editor.dictionary));
@@ -311,6 +337,60 @@ export default function App() {
             </Paper>
           ))}
         </div>
+
+        {/* 全螢幕預覽模式 Modal */}
+        <Modal
+          opened={isPreviewModalOpen}
+          onClose={closePreviewModal}
+          title="預覽"
+          fullScreen
+          styles={{
+            header: {
+              backgroundColor: isDarkMode ? "#1A1B1E" : "#FFFFFF",
+              borderBottom: `1px solid ${isDarkMode ? "#373A40" : "#E9ECEF"}`,
+            },
+            title: {
+              color: isDarkMode ? "#FFFFFF" : "#000000",
+              fontWeight: 600,
+            },
+            content: {
+              backgroundColor: isDarkMode ? "#1A1B1E" : "#FFFFFF",
+            },
+            body: {
+              height: "calc(100vh - 80px)", // 減去 header 高度
+              overflow: "hidden",
+              scrollbarWidth: "none", // Firefox
+              msOverflowStyle: "none", // IE 和 Edge
+              "&::-webkit-scrollbar": {
+                display: "none", // WebKit 瀏覽器
+              },
+            },
+            close: {
+              color: isDarkMode ? "#FFFFFF" : "#000000",
+              "&:hover": {
+                backgroundColor: isDarkMode ? "#373A40" : "#F1F3F4",
+              },
+            },
+          }}
+        >
+          <div style={{ height: "100%" }}>
+            <Paper
+              p="md"
+              style={{
+                backgroundColor: isDarkMode ? "#25262B" : "#F8F9FA",
+                border: `1px solid ${isDarkMode ? "#373A40" : "#E9ECEF"}`,
+                height: "100%",
+                overflow: "auto",
+              }}
+            >
+              <BlockNoteView
+                editor={editor}
+                theme={isDarkMode ? "dark" : "light"}
+                editable={false}
+              />
+            </Paper>
+          </div>
+        </Modal>
       </div>
     </MantineProvider>
   );
