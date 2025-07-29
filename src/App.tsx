@@ -130,7 +130,10 @@ function Header({
           <Button
             variant="outline"
             onClick={handleExportJSON}
-            style={{ marginLeft: 8 }}
+            style={{
+              borderColor: isDark ? "#373A40" : "#CED4DA",
+              color: isDark ? "#FFFFFF" : "#000000",
+            }}
           >
             匯出 JSON
           </Button>
@@ -141,7 +144,10 @@ function Header({
               const input = window.document.getElementById("import-json-input");
               if (input) (input as HTMLInputElement).click();
             }}
-            style={{ marginLeft: 8 }}
+            style={{
+              borderColor: isDark ? "#373A40" : "#CED4DA",
+              color: isDark ? "#FFFFFF" : "#000000",
+            }}
           >
             匯入 JSON
           </Button>
