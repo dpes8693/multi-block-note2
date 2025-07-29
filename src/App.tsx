@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   BlockNoteSchema,
   combineByGroup,
@@ -62,7 +63,7 @@ const darkTheme = createTheme({
   // colorScheme: 'dark', // 移除已棄用的屬性
 });
 
-const Version = "0.1.3";
+const Version = "0.1.4";
 const defaultLanguage = "zhTW";
 
 const newMultiColumnLocales = {
@@ -140,6 +141,83 @@ function Header({
 }
 
 export default function App() {
+  // 預覽 Modal 子元件
+  function PreviewModal({
+    opened,
+    onClose,
+    html,
+    isDarkMode,
+  }: {
+    opened: boolean;
+    onClose: () => void;
+    html: string;
+    isDarkMode: boolean;
+  }) {
+    const previewEditor = useCreateBlockNote();
+    useEffect(() => {
+      async function syncBlocks() {
+        const blocks = await previewEditor.tryParseHTMLToBlocks(html);
+        previewEditor.replaceBlocks(previewEditor.document, blocks);
+      }
+      if (opened) {
+        syncBlocks();
+      }
+    }, [html, opened]);
+    return (
+      <Modal
+        opened={opened}
+        onClose={onClose}
+        title="預覽"
+        fullScreen
+        styles={{
+          header: {
+            backgroundColor: isDarkMode ? "#1A1B1E" : "#FFFFFF",
+            borderBottom: `1px solid ${isDarkMode ? "#373A40" : "#E9ECEF"}`,
+          },
+          title: {
+            color: isDarkMode ? "#FFFFFF" : "#000000",
+            fontWeight: 600,
+          },
+          content: {
+            backgroundColor: isDarkMode ? "#1A1B1E" : "#FFFFFF",
+          },
+          body: {
+            height: "calc(100vh - 80px)",
+            overflow: "hidden",
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+            "&::WebkitScrollbar": {
+              display: "none",
+            },
+          },
+          close: {
+            color: isDarkMode ? "#FFFFFF" : "#000000",
+            "&:hover": {
+              backgroundColor: isDarkMode ? "#373A40" : "#F1F3F4",
+            },
+          },
+        }}
+      >
+        <div style={{ height: "100%" }}>
+          <Paper
+            p="md"
+            style={{
+              backgroundColor: isDarkMode ? "#25262B" : "#F8F9FA",
+              border: `1px solid ${isDarkMode ? "#373A40" : "#E9ECEF"}`,
+              height: "100%",
+              overflow: "auto",
+            }}
+          >
+            <BlockNoteView
+              editor={previewEditor}
+              theme={isDarkMode ? "dark" : "light"}
+              editable={false}
+            />
+          </Paper>
+        </div>
+      </Modal>
+    );
+  }
   const [markdown, setMarkdown] = useState<string>("");
   const [html, setHTML] = useState<string>("");
   const [document, setDocument] = useState([]);
@@ -184,16 +262,16 @@ export default function App() {
     // Load the predefined data from data/index.ts
     initialContent: data as any,
   });
-  const previewEditor = useCreateBlockNote();
   // 預覽模式相關函數
+  const [previewHtml, setPreviewHtml] = useState("");
   const openPreviewModal = async () => {
     const editorHtml = await editor.blocksToHTMLLossy(editor.document);
-    const blocks = await previewEditor.tryParseHTMLToBlocks(editorHtml);
-    previewEditor.replaceBlocks(previewEditor.document, blocks);
+    setPreviewHtml(editorHtml);
     setIsPreviewModalOpen(true);
   };
   const closePreviewModal = () => {
     setIsPreviewModalOpen(false);
+    setPreviewHtml("");
   };
 
   // 监听编辑器内容变化
@@ -349,58 +427,12 @@ export default function App() {
         </div>
 
         {/* 全螢幕預覽模式 Modal */}
-        <Modal
+        <PreviewModal
           opened={isPreviewModalOpen}
           onClose={closePreviewModal}
-          title="預覽"
-          fullScreen
-          styles={{
-            header: {
-              backgroundColor: isDarkMode ? "#1A1B1E" : "#FFFFFF",
-              borderBottom: `1px solid ${isDarkMode ? "#373A40" : "#E9ECEF"}`,
-            },
-            title: {
-              color: isDarkMode ? "#FFFFFF" : "#000000",
-              fontWeight: 600,
-            },
-            content: {
-              backgroundColor: isDarkMode ? "#1A1B1E" : "#FFFFFF",
-            },
-            body: {
-              height: "calc(100vh - 80px)", // 減去 header 高度
-              overflow: "hidden",
-              scrollbarWidth: "none", // Firefox
-              msOverflowStyle: "none", // IE 和 Edge
-              "&::WebkitScrollbar": {
-                display: "none", // WebKit 瀏覽器
-              },
-            },
-            close: {
-              color: isDarkMode ? "#FFFFFF" : "#000000",
-              "&:hover": {
-                backgroundColor: isDarkMode ? "#373A40" : "#F1F3F4",
-              },
-            },
-          }}
-        >
-          <div style={{ height: "100%" }}>
-            <Paper
-              p="md"
-              style={{
-                backgroundColor: isDarkMode ? "#25262B" : "#F8F9FA",
-                border: `1px solid ${isDarkMode ? "#373A40" : "#E9ECEF"}`,
-                height: "100%",
-                overflow: "auto",
-              }}
-            >
-              <BlockNoteView
-                editor={previewEditor}
-                theme={isDarkMode ? "dark" : "light"}
-                editable={false}
-              />
-            </Paper>
-          </div>
-        </Modal>
+          html={previewHtml}
+          isDarkMode={isDarkMode}
+        />
       </div>
     </MantineProvider>
   );

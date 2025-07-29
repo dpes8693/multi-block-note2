@@ -70,4 +70,48 @@
 }
 .bn-block-content .alert-icon[data-alert-icon-type=default] {
   color: #000000;
+}
+
+[data-file-block] .bn-add-file-button {
+  color: #7d797a;
+  background-color: #f2f1ee;
+}
+[data-file-block] .bn-add-file-button:hover {
+  background-color: #e1e1e1;
+}
+
+[data-color-scheme=dark] .bn-block-content[data-content-type=codeBlock] {
+  background-color: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.81);
+}
+[data-color-scheme=dark] .bn-block-content .alert[data-alert-type=info] {
+  color: rgba(225, 243, 254, 0.81);
+  background-color: rgba(32, 51, 128, 0.81);
+  border-left-color: rgba(80, 122, 255, 0.81);
+}
+[data-color-scheme=dark] .bn-block-content .alert[data-alert-type=success] {
+  color: rgba(209, 250, 229, 0.81);
+  background-color: rgba(32, 128, 32, 0.81);
+  border-left-color: rgba(11, 193, 11, 0.81);
+}
+[data-color-scheme=dark] .bn-block-content .alert[data-alert-type=warning] {
+  color: rgba(254, 243, 201, 0.81);
+  background-color: rgba(128, 93, 32, 0.81);
+  border-left-color: rgba(230, 152, 25, 0.81);
+}
+[data-color-scheme=dark] .bn-block-content .alert[data-alert-type=error] {
+  color: rgba(254, 225, 226, 0.81);
+  background-color: rgba(128, 32, 32, 0.81);
+  border-left-color: rgba(216, 13, 13, 0.81);
+}
+[data-color-scheme=dark] .bn-block-content .alert[data-alert-type=default] {
+  color: rgba(245, 247, 249, 0.81);
+  background-color: rgba(120, 120, 120, 0.81);
+}
+[data-color-scheme=dark] [data-file-block] .bn-add-file-button {
+  color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.04);
+}
+[data-color-scheme=dark] [data-file-block] .bn-add-file-button:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
 }/*# sourceMappingURL=layout.css.map */

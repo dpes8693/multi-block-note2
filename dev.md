@@ -1,8 +1,10 @@
 # 開發文件
+
 2025/07/28
 update: 預覽html
 update: markdown和html 變更編輯器後即時更新
 remove: codeBlock
+update: darkMode
 
 2025/07/28
 update: .bn-suggestion-menu crollbar-color
