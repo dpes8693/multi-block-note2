@@ -277,88 +277,39 @@ export default function App() {
           </BlockNoteView>
 
           {/* 文檔內容預覽 */}
-          <Paper
-            mt="xl"
-            p="md"
-            style={{
-              backgroundColor: isDarkMode ? "#25262B" : "#F8F9FA",
-              border: `1px solid ${isDarkMode ? "#373A40" : "#E9ECEF"}`,
-            }}
-          >
-            <Title
-              order={4}
-              mb="md"
-              style={{ color: isDarkMode ? "#FFFFFF" : "#000000" }}
-            >
-              JSON --變更編輯器後即時更新
-            </Title>
-            <pre
+          {[
+            { title: "JSON --變更編輯器後即時更新", content: JSON.stringify(document, null, 2) },
+            { title: "HTML --變更編輯器後即時更新", content: html },
+            { title: "Markdown --變更編輯器後即時更新", content: markdown }
+          ].map((item, index) => (
+            <Paper
+              key={index}
+              mt="xl"
+              p="md"
               style={{
-                color: isDarkMode ? "#C1C2C5" : "#495057",
-                fontSize: "12px",
-                overflow: "auto",
-                maxHeight: "300px",
+                backgroundColor: isDarkMode ? "#25262B" : "#F8F9FA",
+                border: `1px solid ${isDarkMode ? "#373A40" : "#E9ECEF"}`,
               }}
             >
-              {JSON.stringify(document, null, 2)}
-            </pre>
-          </Paper>
-          <Paper
-            mt="xl"
-            p="md"
-            style={{
-              backgroundColor: isDarkMode ? "#25262B" : "#F8F9FA",
-              border: `1px solid ${isDarkMode ? "#373A40" : "#E9ECEF"}`,
-            }}
-          >
-            <Title
-              order={4}
-              mb="md"
-              style={{ color: isDarkMode ? "#FFFFFF" : "#000000" }}
-            >
-              HTML --變更編輯器後即時更新
-            </Title>
-            <pre
-              style={{
-                color: isDarkMode ? "#C1C2C5" : "#495057",
-                fontSize: "12px",
-                overflow: "auto",
-                maxHeight: "300px",
-              }}
-            >
-              <pre>
-                <code>{html}</code>
+              <Title
+                order={4}
+                mb="md"
+                style={{ color: isDarkMode ? "#FFFFFF" : "#000000" }}
+              >
+                {item.title}
+              </Title>
+              <pre
+                style={{
+                  color: isDarkMode ? "#C1C2C5" : "#495057",
+                  fontSize: "12px",
+                  overflow: "auto",
+                  maxHeight: "300px",
+                }}
+              >
+                <code>{item.content}</code>
               </pre>
-            </pre>
-          </Paper>
-          <Paper
-            mt="xl"
-            p="md"
-            style={{
-              backgroundColor: isDarkMode ? "#25262B" : "#F8F9FA",
-              border: `1px solid ${isDarkMode ? "#373A40" : "#E9ECEF"}`,
-            }}
-          >
-            <Title
-              order={4}
-              mb="md"
-              style={{ color: isDarkMode ? "#FFFFFF" : "#000000" }}
-            >
-              Markdown --變更編輯器後即時更新
-            </Title>
-            <pre
-              style={{
-                color: isDarkMode ? "#C1C2C5" : "#495057",
-                fontSize: "12px",
-                overflow: "auto",
-                maxHeight: "300px",
-              }}
-            >
-              <pre>
-                <code>{markdown}</code>
-              </pre>
-            </pre>
-          </Paper>
+            </Paper>
+          ))}
         </div>
       </div>
     </MantineProvider>
