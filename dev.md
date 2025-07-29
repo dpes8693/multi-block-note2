@@ -1,6 +1,11 @@
 # 開發文件
+2025/07/28
+update: 預覽html
+update: markdown和html 變更編輯器後即時更新
+remove: codeBlock
 
 2025/07/28
+update: .bn-suggestion-menu crollbar-color
 fixed: alert 移動時文字會消失，可以複製但是沒有文字 並且無法輸入
 
 ## 當前問題
@@ -21,6 +26,7 @@ For syntax highlighting of code blocks, you must provide a `codeBlock.createHigh
    點 6 個點出現顏色=> 應該禁止
 
 5. scrollbar 點一下就消失無法拖曳 scrollbar
+6. drag 自動滾動整個螢幕判斷區域太小很難抓到
 
 ## How
 
@@ -87,3 +93,19 @@ Alert2
 
 如果以後遇到類似的 BlockNote 組件問題，現在您知道可以考慮使用 createBlockSpec 而不是 createReactBlockSpec 來獲得更好的穩定性！
 ```
+
+## 移除預設 block
+
+<https://www.blocknotejs.org/examples/basic/removing-default-blocks>
+
+## 上傳覆蓋
+
+<https://www.blocknotejs.org/examples/backend/file-uploading>
+
+## 載入本地&儲存本地
+
+<https://www.blocknotejs.org/examples/backend/saving-loading>
+
+## 預覽成果
+
+<https://www.blocknotejs.org/examples/backend/rendering-static-documents>

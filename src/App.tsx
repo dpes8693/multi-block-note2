@@ -62,7 +62,7 @@ const darkTheme = createTheme({
   // colorScheme: 'dark', // 移除已棄用的屬性
 });
 
-const Version = "0.1.2";
+const Version = "0.1.3";
 const defaultLanguage = "zhTW";
 
 const newMultiColumnLocales = {
@@ -153,16 +153,8 @@ export default function App() {
     setIsDarkMode(!isDarkMode);
   };
 
-  // 預覽模式相關函數
-  const openPreviewModal = () => {
-    setIsPreviewModalOpen(true);
-  };
-
-  const closePreviewModal = () => {
-    setIsPreviewModalOpen(false);
-  };
-
   const { codeBlock, ...remainingBlockSpecs } = defaultBlockSpecs;
+
   // Creates a new editor instance.
   const editor = useCreateBlockNote({
     // Adds column and column list blocks to the schema, plus Alert block.
@@ -192,6 +184,17 @@ export default function App() {
     // Load the predefined data from data/index.ts
     initialContent: data as any,
   });
+  const previewEditor = useCreateBlockNote();
+  // 預覽模式相關函數
+  const openPreviewModal = async () => {
+    const editorHtml = await editor.blocksToHTMLLossy(editor.document);
+    const blocks = await previewEditor.tryParseHTMLToBlocks(editorHtml);
+    previewEditor.replaceBlocks(previewEditor.document, blocks);
+    setIsPreviewModalOpen(true);
+  };
+  const closePreviewModal = () => {
+    setIsPreviewModalOpen(false);
+  };
 
   // 监听编辑器内容变化
   useEditorChange(async (editor) => {
@@ -251,7 +254,11 @@ export default function App() {
           transition: "background-color 0.3s ease",
         }}
       >
-        <Header isDark={isDarkMode} toggleTheme={toggleTheme} onPreviewClick={openPreviewModal} />
+        <Header
+          isDark={isDarkMode}
+          toggleTheme={toggleTheme}
+          onPreviewClick={openPreviewModal}
+        />
         <div
           onClick={() => {
             console.log(...blockTypeSelectItems(editor.dictionary));
@@ -304,9 +311,12 @@ export default function App() {
 
           {/* 文檔內容預覽 */}
           {[
-            { title: "JSON --變更編輯器後即時更新", content: JSON.stringify(document, null, 2) },
+            {
+              title: "JSON --變更編輯器後即時更新",
+              content: JSON.stringify(document, null, 2),
+            },
             { title: "HTML --變更編輯器後即時更新", content: html },
-            { title: "Markdown --變更編輯器後即時更新", content: markdown }
+            { title: "Markdown --變更編輯器後即時更新", content: markdown },
           ].map((item, index) => (
             <Paper
               key={index}
@@ -361,7 +371,7 @@ export default function App() {
               overflow: "hidden",
               scrollbarWidth: "none", // Firefox
               msOverflowStyle: "none", // IE 和 Edge
-              "&::-webkit-scrollbar": {
+              "&::WebkitScrollbar": {
                 display: "none", // WebKit 瀏覽器
               },
             },
@@ -384,7 +394,7 @@ export default function App() {
               }}
             >
               <BlockNoteView
-                editor={editor}
+                editor={previewEditor}
                 theme={isDarkMode ? "dark" : "light"}
                 editable={false}
               />
