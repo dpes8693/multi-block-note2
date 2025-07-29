@@ -64,7 +64,7 @@ const darkTheme = createTheme({
   // colorScheme: 'dark', // 移除已棄用的屬性
 });
 
-const Version = "0.1.4";
+const Version = "0.1.5";
 const defaultLanguage = "zhTW";
 
 const newMultiColumnLocales = {
@@ -142,6 +142,25 @@ function Header({
 }
 
 export default function App() {
+  // editor 設定
+  const { ...remainingBlockSpecs } = defaultBlockSpecs;
+  const blockNoteSchema = withMultiColumn(
+    BlockNoteSchema.create({
+      blockSpecs: {
+        ...remainingBlockSpecs,
+        alert: Alert,
+      },
+      inlineContentSpecs: defaultInlineContentSpecs,
+      styleSpecs: defaultStyleSpecs,
+    })
+  );
+  const dropCursor = multiColumnDropCursor;
+  const dictionary = {
+    ...(locales[defaultLanguage] || locales.en),
+    multi_column:
+      newMultiColumnLocales[defaultLanguage] || multiColumnLocales.en,
+  };
+
   // 預覽 Modal 子元件
   function PreviewModal({
     opened,
@@ -154,7 +173,18 @@ export default function App() {
     html: string;
     isDarkMode: boolean;
   }) {
-    const previewEditor = useCreateBlockNote();
+    const previewEditor = useCreateBlockNote({
+      codeBlock,
+      schema: blockNoteSchema,
+      dropCursor,
+      dictionary,
+      initialContent: [
+        {
+          type: "paragraph",
+          content: [],
+        },
+      ],
+    });
     useEffect(() => {
       async function syncBlocks() {
         const blocks = await previewEditor.tryParseHTMLToBlocks(html);
@@ -232,36 +262,12 @@ export default function App() {
     setIsDarkMode(!isDarkMode);
   };
 
-  const { ...remainingBlockSpecs } = defaultBlockSpecs;
-
-  // Creates a new editor instance.
+  // Creates a new editor instance。
   const editor = useCreateBlockNote({
     codeBlock,
-    // Adds column and column list blocks to the schema, plus Alert block.
-    schema: withMultiColumn(
-      BlockNoteSchema.create({
-        blockSpecs: {
-          // Adds all default blocks.
-          ...remainingBlockSpecs,
-          // Adds the Alert block.
-          alert: Alert,
-        },
-        // This is already the default, but you can add more inline content types here.
-        inlineContentSpecs: defaultInlineContentSpecs,
-        // This is already the default, but you can add more style types here.
-        styleSpecs: defaultStyleSpecs,
-      })
-    ),
-    // The default drop cursor only shows up above and below blocks - we replace
-    // it with the multi-column one that also shows up on the sides of blocks.
-    dropCursor: multiColumnDropCursor,
-    // Merges the default dictionary with the multi-column dictionary.
-    dictionary: {
-      ...(locales[defaultLanguage] || locales.en),
-      multi_column:
-        newMultiColumnLocales[defaultLanguage] || multiColumnLocales.en,
-    },
-    // Load the predefined data from data/index.ts
+    schema: blockNoteSchema,
+    dropCursor,
+    dictionary,
     initialContent: data as any,
   });
   // 預覽模式相關函數
