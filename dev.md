@@ -1,11 +1,13 @@
 # 開發文件
 
 2025/07/29
-update: 預覽html
-update: markdown和html 變更編輯器後即時更新
+update: 預覽 html
+update: markdown 和 html 變更編輯器後即時更新
 remove: codeBlock
 update: darkMode
 update: codeBlock 更改語言
+update: 匯入匯出json
+
 
 2025/07/28
 update: .bn-suggestion-menu crollbar-color
@@ -30,6 +32,8 @@ For syntax highlighting of code blocks, you must provide a `codeBlock.createHigh
 
 5. scrollbar 點一下就消失無法拖曳 scrollbar
 6. drag 自動滾動整個螢幕判斷區域太小很難抓到
+7. [bug]圖片建立後 左上角會多一個區塊蓋在文字上影響編輯
+8. 無法透過 6 個點刪除空區塊
 
 ## How
 
