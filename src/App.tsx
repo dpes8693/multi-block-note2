@@ -64,7 +64,7 @@ const darkTheme = createTheme({
   // colorScheme: 'dark', // 移除已棄用的屬性
 });
 
-const Version = "0.1.5";
+const Version = "0.1.6";
 const defaultLanguage = "zhTW";
 
 const newMultiColumnLocales = {
@@ -92,10 +92,14 @@ function Header({
   isDark,
   toggleTheme,
   onPreviewClick,
+  handleExportJSON,
+  handleImportJSON,
 }: {
   isDark: boolean;
   toggleTheme: () => void;
   onPreviewClick: () => void;
+  handleExportJSON: () => void;
+  handleImportJSON: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) {
   return (
     <Paper
@@ -122,6 +126,32 @@ function Header({
           >
             HTML 預覽
           </Button>
+          {/* 匯出 JSON 按鈕 */}
+          <Button
+            variant="outline"
+            onClick={handleExportJSON}
+            style={{ marginLeft: 8 }}
+          >
+            匯出 JSON
+          </Button>
+          {/* 匯入 JSON 按鈕與隱藏 input */}
+          <Button
+            variant="outline"
+            onClick={() => {
+              const input = window.document.getElementById("import-json-input");
+              if (input) (input as HTMLInputElement).click();
+            }}
+            style={{ marginLeft: 8 }}
+          >
+            匯入 JSON
+          </Button>
+          <input
+            id="import-json-input"
+            type="file"
+            accept="application/json"
+            style={{ display: "none" }}
+            onChange={handleImportJSON}
+          />
           <Button
             variant="outline"
             onClick={toggleTheme}
@@ -251,7 +281,7 @@ export default function App() {
   }
   const [markdown, setMarkdown] = useState<string>("");
   const [html, setHTML] = useState<string>("");
-  const [document, setDocument] = useState([]);
+  const [docBlocks, setDocBlocks] = useState([]);
   // 添加主題狀態
   const [isDarkMode, setIsDarkMode] = useState(false);
   // 添加預覽模式狀態
@@ -284,12 +314,9 @@ export default function App() {
 
   // 监听编辑器内容变化
   useEditorChange(async (editor) => {
-    // JSON
-    setDocument(editor.document as any);
-    // Converts the editor's contents from Block objects to HTML and store to state.
+    setDocBlocks(editor.document as any);
     const html = await editor.blocksToHTMLLossy(editor.document);
     setHTML(html);
-    // Converts the editor's contents from Block objects to Markdown and store to state.
     const markdown = await editor.blocksToMarkdownLossy(editor.document);
     setMarkdown(markdown);
   }, editor);
@@ -330,7 +357,43 @@ export default function App() {
     return async (query: string) => filterSuggestionItems(items, query);
   }, [editor]);
 
-  // Renders the editor instance using a React component.
+  // 匯出 JSON
+  const handleExportJSON = () => {
+    setTimeout(() => {
+      const jsonStr = JSON.stringify(editor.document, null, 2);
+      const blob = new Blob([jsonStr], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = window.document.createElement("a");
+      a.href = url;
+      a.download = "blocknote.json";
+      window.document.body.appendChild(a);
+      a.click();
+      window.document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 50);
+  };
+
+  // 匯入 JSON
+  const handleImportJSON = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const json = JSON.parse(event.target?.result as string);
+        if (Array.isArray(json)) {
+          editor.replaceBlocks(editor.document, json);
+        } else {
+          alert("JSON 格式錯誤，請確認為區塊陣列！");
+        }
+      } catch {
+        alert("無法解析 JSON 檔案！");
+      }
+      e.target.value = "";
+    };
+    reader.readAsText(file);
+  };
+
   return (
     <MantineProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <div
@@ -344,7 +407,10 @@ export default function App() {
           isDark={isDarkMode}
           toggleTheme={toggleTheme}
           onPreviewClick={openPreviewModal}
+          handleExportJSON={handleExportJSON}
+          handleImportJSON={handleImportJSON}
         />
+        {/* ...existing code... */}
         <div
           onClick={() => {
             console.log(...blockTypeSelectItems(editor.dictionary));
@@ -356,6 +422,7 @@ export default function App() {
         >
           console.log
         </div>
+        {/* ...existing code... */}
         <div style={{ padding: "20px" }}>
           <BlockNoteView
             editor={editor}
@@ -364,7 +431,7 @@ export default function App() {
             sideMenu={false}
             theme={isDarkMode ? "dark" : "light"}
           >
-            {/* Custom Side Menu with Alert Type Button */}
+            {/* ...existing code... */}
             <SideMenuController
               sideMenu={(props) => (
                 <SideMenu {...props}>
@@ -374,20 +441,14 @@ export default function App() {
                 </SideMenu>
               )}
             />
-            {/* Replaces the default slash menu with one that has both the default
-          items and the multi-column ones. */}
             <SuggestionMenuController
               triggerCharacter="/"
               getItems={getSlashMenuItems}
             />
-            {/* Replaces the default Formatting Toolbar */}
             <FormattingToolbarController
               formattingToolbar={() => (
-                // Uses the default Formatting Toolbar.
                 <FormattingToolbar
-                  // Sets the items in the Block Type Select.
                   blockTypeSelectItems={[
-                    // Gets the default Block Type Select items.
                     ...blockTypeSelectItems(editor.dictionary),
                   ]}
                 />
@@ -395,11 +456,11 @@ export default function App() {
             />
           </BlockNoteView>
 
-          {/* 文檔內容預覽 */}
+          {/* ...existing code... */}
           {[
             {
               title: "JSON --變更編輯器後即時更新",
-              content: JSON.stringify(document, null, 2),
+              content: JSON.stringify(docBlocks, null, 2),
             },
             { title: "HTML --變更編輯器後即時更新", content: html },
             { title: "Markdown --變更編輯器後即時更新", content: markdown },
@@ -434,7 +495,7 @@ export default function App() {
           ))}
         </div>
 
-        {/* 全螢幕預覽模式 Modal */}
+        {/* ...existing code... */}
         <PreviewModal
           opened={isPreviewModalOpen}
           onClose={closePreviewModal}
