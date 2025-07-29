@@ -341,21 +341,21 @@ export const data = [
     content: [],
     children: [],
   },
-  // {
-  //   id: "0142108d-5a5d-4f5c-93d0-5867b87be22d",
-  //   type: "codeBlock",
-  //   props: {
-  //     language: "text",
-  //   },
-  //   content: [
-  //     {
-  //       type: "text",
-  //       text: "Code",
-  //       styles: {},
-  //     },
-  //   ],
-  //   children: [],
-  // },
+  {
+    id: "0142108d-5a5d-4f5c-93d0-5867b87be22d",
+    type: "codeBlock",
+    props: {
+      language: "typescript",
+    },
+    content: [
+      {
+        type: "text",
+        text: "const x = 3 * 4;",
+        styles: {},
+      },
+    ],
+    children: [],
+  },
   {
     id: "622c951a-90f8-4619-93fe-5537f0fbc04c",
     type: "table",

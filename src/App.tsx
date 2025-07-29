@@ -53,6 +53,7 @@ import { AlertTypeButton } from "./AlertTypeButton";
 import "./Alert.css";
 import { data } from "./data/index";
 import { HiOutlineGlobeAlt } from "react-icons/hi";
+import { codeBlock } from "@blocknote/code-block";
 
 // 創建主題配置
 const lightTheme = createTheme({
@@ -231,10 +232,11 @@ export default function App() {
     setIsDarkMode(!isDarkMode);
   };
 
-  const { codeBlock, ...remainingBlockSpecs } = defaultBlockSpecs;
+  const { ...remainingBlockSpecs } = defaultBlockSpecs;
 
   // Creates a new editor instance.
   const editor = useCreateBlockNote({
+    codeBlock,
     // Adds column and column list blocks to the schema, plus Alert block.
     schema: withMultiColumn(
       BlockNoteSchema.create({
