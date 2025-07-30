@@ -64,7 +64,7 @@ const darkTheme = createTheme({
   // colorScheme: 'dark', // 移除已棄用的屬性
 });
 
-const Version = "0.1.6";
+const Version = "0.1.7";
 const defaultLanguage = "zhTW";
 
 const newMultiColumnLocales = {
@@ -309,7 +309,7 @@ export default function App() {
   // 預覽模式相關函數
   const [previewHtml, setPreviewHtml] = useState("");
   const openPreviewModal = async () => {
-    const editorHtml = await editor.blocksToHTMLLossy(editor.document);
+    const editorHtml = await editor.blocksToFullHTML(editor.document);
     setPreviewHtml(editorHtml);
     setIsPreviewModalOpen(true);
   };
@@ -321,7 +321,7 @@ export default function App() {
   // 监听编辑器内容变化
   useEditorChange(async (editor) => {
     setDocBlocks(editor.document as any);
-    const html = await editor.blocksToHTMLLossy(editor.document);
+    const html = await editor.blocksToFullHTML(editor.document);
     setHTML(html);
     const markdown = await editor.blocksToMarkdownLossy(editor.document);
     setMarkdown(markdown);
@@ -469,7 +469,7 @@ export default function App() {
               content: JSON.stringify(docBlocks, null, 2),
             },
             { title: "HTML --變更編輯器後即時更新", content: html },
-            { title: "Markdown --變更編輯器後即時更新", content: markdown },
+            { title: "Markdown(Lossy) --變更編輯器後即時更新", content: markdown },
           ].map((item, index) => (
             <Paper
               key={index}
