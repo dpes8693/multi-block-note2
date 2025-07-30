@@ -1,13 +1,16 @@
 # 開發文件
 
 2025/07/29
+
+fixed: html 預覽
+
+2025/07/29
 update: 預覽 html
 update: markdown 和 html 變更編輯器後即時更新
 remove: codeBlock
 update: darkMode
 update: codeBlock 更改語言
-update: 匯入匯出json
-
+update: 匯入匯出 json
 
 2025/07/28
 update: .bn-suggestion-menu crollbar-color
@@ -21,7 +24,7 @@ fixed: alert 移動時文字會消失，可以複製但是沒有文字 並且無
 2. heading 展開時還要點一下新增 block 才能拖曳 block 進去
 3. codeBlock 沒有更改顏色判斷程式語言
 
-<https://www.blocknotejs.org/docs/features/blocks/code-blocks>
+[https://www.blocknotejs.org/docs/features/blocks/code-blocks](https://www.blocknotejs.org/docs/features/blocks/code-blocks)
 
 ```md
 For syntax highlighting of code blocks, you must provide a `codeBlock.createHighlighter` function
@@ -29,7 +32,6 @@ For syntax highlighting of code blocks, you must provide a `codeBlock.createHigh
 
 4. alert 是客製化的
    點 6 個點出現顏色=> 應該禁止
-
 5. scrollbar 點一下就消失無法拖曳 scrollbar
 6. drag 自動滾動整個螢幕判斷區域太小很難抓到
 7. [bug]圖片建立後 左上角會多一個區塊蓋在文字上影響編輯
@@ -38,7 +40,7 @@ For syntax highlighting of code blocks, you must provide a `codeBlock.createHigh
 ## How
 
 - 怎麼隱藏/擴充選單?
-  <https://www.blocknotejs.org/docs/react/components/suggestion-menus>
+  [https://www.blocknotejs.org/docs/react/components/suggestion-menus](https://www.blocknotejs.org/docs/react/components/suggestion-menus)
 
 總計：17 種不同的 type
 
@@ -82,7 +84,7 @@ Inline Content Types 是利用特殊文字 ex: @呼叫自訂選單做自訂功�
 Block Side Menu 是產生區塊後左邊的操作選單
 
 Aert:
-<https://stackblitz.com/github/TypeCellOS/BlockNote/tree/main/examples/06-custom-schema/05-alert-block-full-ux?file=README.md>
+[https://stackblitz.com/github/TypeCellOS/BlockNote/tree/main/examples/06-custom-schema/05-alert-block-full-ux?file=README.md](https://stackblitz.com/github/TypeCellOS/BlockNote/tree/main/examples/06-custom-schema/05-alert-block-full-ux?file=README.md)
 
 ```md
 Alert2
@@ -101,18 +103,24 @@ Alert2
 如果以後遇到類似的 BlockNote 組件問題，現在您知道可以考慮使用 createBlockSpec 而不是 createReactBlockSpec 來獲得更好的穩定性！
 ```
 
+## Loosy
+
+有些轉換會丟失
+ex: blocksToHTMLLossy, blocksToMarkdownLossy
+要完整轉換 html 要用: blocksToFullHTML
+
 ## 移除預設 block
 
-<https://www.blocknotejs.org/examples/basic/removing-default-blocks>
+[https://www.blocknotejs.org/examples/basic/removing-default-blocks](https://www.blocknotejs.org/examples/basic/removing-default-blocks)
 
 ## 上傳覆蓋
 
-<https://www.blocknotejs.org/examples/backend/file-uploading>
+[https://www.blocknotejs.org/examples/backend/file-uploading](https://www.blocknotejs.org/examples/backend/file-uploading)
 
 ## 載入本地&儲存本地
 
-<https://www.blocknotejs.org/examples/backend/saving-loading>
+[https://www.blocknotejs.org/examples/backend/saving-loading](https://www.blocknotejs.org/examples/backend/saving-loading)
 
 ## 預覽成果
 
-<https://www.blocknotejs.org/examples/backend/rendering-static-documents>
+[https://www.blocknotejs.org/examples/backend/rendering-static-documents](https://www.blocknotejs.org/examples/backend/rendering-static-documents)
