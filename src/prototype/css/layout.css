@@ -29,19 +29,23 @@
 }
 
 .alert-icon[data-alert-icon-type=info] {
-  color: #08a2e7;
+  color: #08a2e7 !important;
 }
 .alert-icon[data-alert-icon-type=success] {
-  color: #12b77f;
+  color: #12b77f !important;
 }
 .alert-icon[data-alert-icon-type=warning] {
-  color: #f97415;
+  color: #f97415 !important;
 }
 .alert-icon[data-alert-icon-type=error] {
-  color: #ee4443;
+  color: #ee4443 !important;
 }
 .alert-icon[data-alert-icon-type=default] {
-  color: #000000;
+  color: #000000 !important;
+}
+.alert-icon svg {
+  width: 20px;
+  height: 20px;
 }
 
 [data-color-scheme=light] .bn-block-content[data-content-type=codeBlock] {
