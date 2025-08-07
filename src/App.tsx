@@ -41,7 +41,6 @@ import { useMemo, useState } from "react";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 import {
   MantineProvider,
-  createTheme,
   Button,
   Group,
   Paper,
@@ -55,16 +54,7 @@ import { data } from "./data/index";
 import { HiOutlineGlobeAlt } from "react-icons/hi";
 import { codeBlock } from "@blocknote/code-block";
 
-// 創建主題配置
-const lightTheme = createTheme({
-  // colorScheme: 'light', // 移除已棄用的屬性
-});
-
-const darkTheme = createTheme({
-  // colorScheme: 'dark', // 移除已棄用的屬性
-});
-
-const Version = "0.1.7";
+const Version = "0.1.8";
 const defaultLanguage = "zhTW";
 
 const newMultiColumnLocales = {
@@ -401,7 +391,7 @@ export default function App() {
   };
 
   return (
-    <MantineProvider theme={isDarkMode ? darkTheme : lightTheme}>
+    <MantineProvider>
       <div
         style={{
           minHeight: "100vh",
@@ -469,7 +459,10 @@ export default function App() {
               content: JSON.stringify(docBlocks, null, 2),
             },
             { title: "HTML --變更編輯器後即時更新", content: html },
-            { title: "Markdown(Lossy) --變更編輯器後即時更新", content: markdown },
+            {
+              title: "Markdown(Lossy) --變更編輯器後即時更新",
+              content: markdown,
+            },
           ].map((item, index) => (
             <Paper
               key={index}
